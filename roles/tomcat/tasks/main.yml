@@ -1,0 +1,22 @@
+---
+ - name: update server
+   yum: 
+     name: "*"
+     state: present
+ - name: install java
+   yum:
+     name: java-1.8.0-openjdk-devel
+     state: present
+ - name: download tomcat
+   get_url:
+     url: "{{tomcat_url}}"
+     dest: /mnt
+ - name: unarchive tomcat
+   unarchive: 
+     src: "/mnt/apache-tomcat-9.0.65.tar.gz"
+     dest: /mnt
+     remote_src: yes
+     mode: 0777
+ - name: start tomcat server
+   shell: nohup /mnt/apache-tomcat-9.0.65/bin/startup.sh &
+
